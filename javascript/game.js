@@ -87,3 +87,25 @@ var update = function () {
     reposition();
   }
 };
+
+// Render!
+var render = function () {
+  if (isBgReady) {
+    context.drawImage(bgImage, 0, 0);
+  }
+
+  if (isCaptainReady) {
+    context.drawImage(captainImage, captain.x, captain.y);
+  }
+
+  if (isIsisReady) {
+    context.drawImage(isisImage, isis.x, isis.y);
+  }
+
+  // Score
+  context.fillStyle = "rgb(250, 250, 250)";
+  context.font = "24px Helvetica";
+  context.textAlign = "left";
+  context.textBaseline = "top";
+  context.fillText("ISIS caught: " + numberCaught, 32, 32);
+};
