@@ -73,6 +73,7 @@ var update = function () {
   if (39 in keysDown) {
     captain.x += captain.speed;
   }
+  // Using 'IF' instead of 'ELSE IF' to account for multidirectional keys being pressed down. 'ELSE IF' will only allow up, down, right, left at one time.
 
   // Are they touching?
   if (
@@ -106,7 +107,12 @@ var render = function () {
   context.textAlign = "left";
   context.textBaseline = "top";
   context.fillText("ISIS caught: " + numberCaught, 10, 10);
+  context.fillText("High Score:  " + highestScore, 10, 30);
   context.fillText("Time: " + (20-sec), 360, 10);
+  if (isOver) {
+    context.fillText("GAME OVER", 160, 170);
+    context.fillText("ENTER to restart", 150, 230);
+  }
 };
 
 var setHighScore = function(){
@@ -116,26 +122,37 @@ var clearHighScore = function(){
   highestScore = 0;
 };
 
+var isOver = false;
+var sec = 0;
 var timer = function(){
-  sec = 0;
-  var isOver = false;
+
   var stopwatch = function(){
     console.log(sec);
     sec ++;
     if (sec >= 20) {
-      isOver = true;
       setHighScore();
-      console.log('high score: ' + highestScore);
       clearInterval(myInt);
+      isOver = true;
     }
   };
   var myInt = setInterval(stopwatch, 1000);
 };
 
+var restart = function(){
+  if (13 in keysDown) {
+    numberCaught = 0;
+    sec = 0;
+    isOver = false;
+    reposition();
+    timer();
+  }
+};
+
 var main = function () {
 
-  update();
+  (isOver == false) ? update() : restart();
   render();
+
 
   // Request to do this again ASAP
   requestAnimationFrame(main);
