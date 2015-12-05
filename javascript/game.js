@@ -1,8 +1,8 @@
 // Create Canvas
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 450;
+canvas.height = 400;
 document.body.appendChild(canvas);
 
 // Include Background Image
@@ -14,12 +14,12 @@ bgImage.onload = function(){
 bgImage.src = "images/background.jpg";
 
 // Include Captain America Image
-var isCaptainReady = false;
-var captainImage = new Image();
-captainImage.onload = function () {
-  isCaptainReady = true;
+var isLindaReady = false;
+var lindaImage = new Image();
+lindaImage.onload = function () {
+  isLindaReady = true;
 };
-captainImage.src = "images/captain.png";
+lindaImage.src = "images/linda1.png";
 
 // Include ISIS Image
 var isIsisReady = false;
@@ -31,13 +31,13 @@ isisImage.src = "images/isis.png";
 
 // Include Game Objects
 var captain = {
-  x: 0,
-  y: 0,
-  speed: 230;
+  x: canvas.width / 2 - 20,
+  y: canvas.height / 2 - 10,
+  speed: 10
 }
 var isis = {
-  x: 0,
-  y: 0
+  x: 0 - 10,
+  y: 0 - 10
 };
 var numberCaught = 0;
 
@@ -54,9 +54,6 @@ addEventListener("keyup", function (e) {
 
 // Repositioning upon game start & each capture.
 var reposition = function(){
-  captain.x = canvas.width / 2;
-  captain.y = canvas.height / 2;
-
   isis.x = Math.random() * ((canvas.width - 50) - 50);
   isis.y = Math.random() * ((canvas.height - 50) - 50);
 }
@@ -78,10 +75,10 @@ var update = function () {
 
   // Are they touching?
   if (
-    captain.x <= (isis.x + 25)
-    && isis.x <= (captain.x + 25)
-    && captain.y <= (isis.y + 25)
-    && isis.y <= (captain.y + 25)
+    captain.x <= (isis.x + 20)
+    && isis.x <= (captain.x + 20)
+    && captain.y <= (isis.y + 20)
+    && isis.y <= (captain.y + 20)
   ) {
     numberCaught++;
     reposition();
@@ -94,8 +91,8 @@ var render = function () {
     context.drawImage(bgImage, 0, 0);
   }
 
-  if (isCaptainReady) {
-    context.drawImage(captainImage, captain.x, captain.y);
+  if (isLindaReady) {
+    context.drawImage(lindaImage, captain.x, captain.y);
   }
 
   if (isIsisReady) {
@@ -109,3 +106,15 @@ var render = function () {
   context.textBaseline = "top";
   context.fillText("ISIS caught: " + numberCaught, 32, 32);
 };
+
+var main = function () {
+  update();
+  render();
+
+  // Request to do this again ASAP
+  requestAnimationFrame(main);
+};
+
+// Let's play
+reposition();
+main();
