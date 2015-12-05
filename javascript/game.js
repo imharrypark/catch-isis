@@ -24,3 +24,14 @@ var isis = {
   y: 0
 };
 var numberCaught = 0;
+
+// Event Handlers
+var keysDown = {};
+
+addEventListener("keydown", function (e) {
+  keysDown[e.keyCode] = true;
+}, false);
+
+addEventListener("keyup", function (e) {
+  delete keysDown[e.keyCode];
+}, false);
