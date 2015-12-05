@@ -21,6 +21,14 @@ captainImage.onload = function () {
 };
 captainImage.src = "images/captain.png";
 
+// Include ISIS Image
+var isIsisReady = false;
+var isisImage = new Image();
+isisImage.onload = function () {
+  isIsisReady = true;
+};
+isisImage.src = "images/isis.png";
+
 // Include Game Objects
 var captain = {
   x: 0,
