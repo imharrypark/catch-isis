@@ -13,6 +13,14 @@ bgImage.onload = function(){
 };
 bgImage.src = "images/background.jpg";
 
+// Include Captain America Image
+var isCaptainReady = false;
+var captainImage = new Image();
+captainImage.onload = function () {
+  isCaptainReady = true;
+};
+captainImage.src = "images/captain.png";
+
 // Include Game Objects
 var captain = {
   x: 0,
@@ -71,4 +79,3 @@ var update = function () {
     reposition();
   }
 };
-
