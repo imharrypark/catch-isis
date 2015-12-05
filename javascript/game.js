@@ -41,6 +41,34 @@ var reposition = function(){
   captain.x = canvas.width / 2;
   captain.y = canvas.height / 2;
 
-  isis.x = Math.random() * (canvas.width - 0);
-  isis.y = Math.random() * (canvas.height - 0);
+  isis.x = Math.random() * ((canvas.width - 50) - 50);
+  isis.y = Math.random() * ((canvas.height - 50) - 50);
 }
+
+// Update game objects
+var update = function () {
+  if (38 in keysDown) {
+    captain.y -= captain.speed;
+  }
+  if (40 in keysDown) {
+    captain.y += captain.speed;
+  }
+  if (37 in keysDown) {
+    captain.x -= captain.speed;
+  }
+  if (39 in keysDown) {
+    captain.x += captain.speed;
+  }
+
+  // Are they touching?
+  if (
+    captain.x <= (isis.x + 25)
+    && isis.x <= (captain.x + 25)
+    && captain.y <= (isis.y + 25)
+    && isis.y <= (captain.y + 25)
+  ) {
+    numberCaught++;
+    reposition();
+  }
+};
+
