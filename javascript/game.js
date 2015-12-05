@@ -4,6 +4,7 @@ var context = canvas.getContext("2d");
 canvas.width = 450;
 canvas.height = 400;
 document.body.appendChild(canvas);
+document.body.style.backgroundImage ="url('images/background2.jpg')";
 
 // Include Background Image
 var isBgReady = false;
