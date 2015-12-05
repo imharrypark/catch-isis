@@ -4,6 +4,7 @@ var context = canvas.getContext("2d");
 canvas.width = 450;
 canvas.height = 400;
 document.body.appendChild(canvas);
+document.body.style.backgroundImage ="url('images/background2.jpg')";
 
 // Include Background Image
 var isBgReady = false;
@@ -40,6 +41,7 @@ var isis = {
   y: 0 - 10
 };
 var numberCaught = 0;
+var highestScore = 0;
 
 // Event Handlers
 var keysDown = {};
@@ -56,7 +58,7 @@ addEventListener("keyup", function (e) {
 var reposition = function(){
   isis.x = Math.random() * ((canvas.width - 50) - 50);
   isis.y = Math.random() * ((canvas.height - 50) - 50);
-}
+};
 
 // Update game objects
 var update = function () {
@@ -72,6 +74,7 @@ var update = function () {
   if (39 in keysDown) {
     captain.x += captain.speed;
   }
+  // Using 'IF' instead of 'ELSE IF' to account for multidirectional keys being pressed down. 'ELSE IF' will only allow up, down, right, left at one time.
 
   // Are they touching?
   if (
@@ -101,15 +104,56 @@ var render = function () {
 
   // Score
   context.fillStyle = "rgb(250, 250, 250)";
-  context.font = "24px Helvetica";
+  context.font = "20px Helvetica";
   context.textAlign = "left";
   context.textBaseline = "top";
-  context.fillText("ISIS caught: " + numberCaught, 32, 32);
+  context.fillText("ISIS caught: " + numberCaught, 10, 10);
+  context.fillText("High Score:  " + highestScore, 10, 30);
+  context.fillText("Time: " + (20-sec), 360, 10);
+  if (isOver) {
+    context.fillText("GAME OVER", 160, 170);
+    context.fillText("ENTER to restart", 150, 230);
+  }
+};
+
+var setHighScore = function(){
+  highestScore = (highestScore < numberCaught) ? numberCaught : highestScore;
+};
+var clearHighScore = function(){
+  highestScore = 0;
+};
+
+var isOver = false;
+var sec = 0;
+var timer = function(){
+
+  var stopwatch = function(){
+    console.log(sec);
+    sec ++;
+    if (sec >= 20) {
+      setHighScore();
+      clearInterval(myInt);
+      isOver = true;
+    }
+  };
+  var myInt = setInterval(stopwatch, 1000);
+};
+
+var restart = function(){
+  if (13 in keysDown) {
+    numberCaught = 0;
+    sec = 0;
+    isOver = false;
+    reposition();
+    timer();
+  }
 };
 
 var main = function () {
-  update();
+
+  (isOver == false) ? update() : restart();
   render();
+
 
   // Request to do this again ASAP
   requestAnimationFrame(main);
@@ -117,4 +161,5 @@ var main = function () {
 
 // Let's play
 reposition();
+timer();
 main();
