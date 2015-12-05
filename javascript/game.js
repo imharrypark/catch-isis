@@ -35,3 +35,12 @@ addEventListener("keydown", function (e) {
 addEventListener("keyup", function (e) {
   delete keysDown[e.keyCode];
 }, false);
+
+// Repositioning upon game start & each capture.
+var reposition = function(){
+  captain.x = canvas.width / 2;
+  captain.y = canvas.height / 2;
+
+  isis.x = Math.random() * (canvas.width - 0);
+  isis.y = Math.random() * (canvas.height - 0);
+}
