@@ -34,7 +34,7 @@ var captain = {
   x: canvas.width / 2 - 20,
   y: canvas.height / 2 - 10,
   speed: 10
-}
+};
 var isis = {
   x: 0 - 10,
   y: 0 - 10
