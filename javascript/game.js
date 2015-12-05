@@ -40,6 +40,7 @@ var isis = {
   y: 0 - 10
 };
 var numberCaught = 0;
+var highestScore = 0;
 
 // Event Handlers
 var keysDown = {};
@@ -56,7 +57,7 @@ addEventListener("keyup", function (e) {
 var reposition = function(){
   isis.x = Math.random() * ((canvas.width - 50) - 50);
   isis.y = Math.random() * ((canvas.height - 50) - 50);
-}
+};
 
 // Update game objects
 var update = function () {
@@ -101,13 +102,38 @@ var render = function () {
 
   // Score
   context.fillStyle = "rgb(250, 250, 250)";
-  context.font = "24px Helvetica";
+  context.font = "20px Helvetica";
   context.textAlign = "left";
   context.textBaseline = "top";
-  context.fillText("ISIS caught: " + numberCaught, 32, 32);
+  context.fillText("ISIS caught: " + numberCaught, 10, 10);
+  context.fillText("Time: " + (20-sec), 360, 10);
+};
+
+var setHighScore = function(){
+  highestScore = (highestScore < numberCaught) ? numberCaught : highestScore;
+};
+var clearHighScore = function(){
+  highestScore = 0;
+};
+
+var timer = function(){
+  sec = 0;
+  var isOver = false;
+  var stopwatch = function(){
+    console.log(sec);
+    sec ++;
+    if (sec >= 20) {
+      isOver = true;
+      setHighScore();
+      console.log('high score: ' + highestScore);
+      clearInterval(myInt);
+    }
+  };
+  var myInt = setInterval(stopwatch, 1000);
 };
 
 var main = function () {
+
   update();
   render();
 
@@ -117,4 +143,5 @@ var main = function () {
 
 // Let's play
 reposition();
+timer();
 main();
